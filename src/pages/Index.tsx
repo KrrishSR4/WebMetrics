@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { useMonitoring } from '@/hooks/useMonitoring';
+import { useUrlHistory } from '@/hooks/useUrlHistory';
 import { Header } from '@/components/Header';
 import { UrlInput } from '@/components/UrlInput';
 import { Dashboard } from '@/components/Dashboard';
@@ -13,6 +15,29 @@ const Index = () => {
     startMonitoring,
     stopMonitoring,
   } = useMonitoring();
+
+  const {
+    history,
+    addToHistory,
+    removeFromHistory,
+    clearHistory,
+  } = useUrlHistory();
+
+  // Save to history when monitoring data updates
+  useEffect(() => {
+    if (isMonitoring && metrics.website.url && metrics.lastChecked) {
+      addToHistory({
+        url: metrics.website.url,
+        lastChecked: metrics.lastChecked,
+        status: metrics.website.status,
+        responseTime: metrics.website.responseTime,
+      });
+    }
+  }, [isMonitoring, metrics.website.url, metrics.website.status, metrics.lastChecked, addToHistory]);
+
+  const handleSelectFromHistory = (url: string) => {
+    startMonitoring(url);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -43,6 +68,10 @@ const Index = () => {
             onStop={stopMonitoring}
             isMonitoring={isMonitoring}
             isLoading={isLoading}
+            history={history}
+            onSelectHistory={handleSelectFromHistory}
+            onRemoveHistory={removeFromHistory}
+            onClearHistory={clearHistory}
           />
           {error && (
             <p className="text-center text-status-down text-sm mt-3">{error}</p>
