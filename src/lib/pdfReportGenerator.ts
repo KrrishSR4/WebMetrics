@@ -177,34 +177,39 @@ function drawBarChart(
 ): void {
   if (!data || data.length === 0) return;
 
-  const barHeight = 12;
-  const gap = 4;
+  const padding = 3;
+  const availableHeight = height - (padding * 2);
+  const itemCount = data.length;
+  const gap = 3;
+  const barHeight = Math.min(10, (availableHeight - (gap * (itemCount - 1))) / itemCount);
   const maxValue = Math.max(...data.map(d => d.value), 1);
-  const labelWidth = 50;
-  const barWidth = width - labelWidth - 30;
+  const labelWidth = 28;
+  const valueWidth = 18;
+  const barMaxWidth = width - labelWidth - valueWidth - 8;
 
   data.forEach((item, i) => {
-    const barY = y + i * (barHeight + gap);
+    const barY = y + padding + i * (barHeight + gap);
     
-    // Label
+    // Label (left aligned, compact)
     pdf.setTextColor(...colors.text);
-    pdf.setFontSize(8);
-    pdf.text(item.label, x, barY + barHeight / 2 + 1);
+    pdf.setFontSize(7);
+    pdf.setFont('helvetica', 'normal');
+    pdf.text(item.label, x + 2, barY + barHeight / 2 + 1);
     
     // Background bar
-    pdf.setFillColor(240, 240, 240);
-    pdf.roundedRect(x + labelWidth, barY, barWidth, barHeight, 2, 2, 'F');
+    pdf.setFillColor(235, 235, 235);
+    pdf.roundedRect(x + labelWidth, barY, barMaxWidth, barHeight, 1.5, 1.5, 'F');
     
-    // Value bar
-    const valueWidth = (item.value / maxValue) * barWidth;
+    // Value bar (constrained within box)
+    const valueBarWidth = Math.max(2, (item.value / maxValue) * barMaxWidth);
     pdf.setFillColor(...item.color);
-    pdf.roundedRect(x + labelWidth, barY, valueWidth, barHeight, 2, 2, 'F');
+    pdf.roundedRect(x + labelWidth, barY, valueBarWidth, barHeight, 1.5, 1.5, 'F');
     
-    // Value label
+    // Value label (right side, inside box)
     pdf.setTextColor(...colors.text);
     pdf.setFontSize(7);
     pdf.setFont('helvetica', 'bold');
-    pdf.text(`${item.value}ms`, x + labelWidth + barWidth + 3, barY + barHeight / 2 + 1);
+    pdf.text(`${item.value}ms`, x + labelWidth + barMaxWidth + 2, barY + barHeight / 2 + 1);
   });
 }
 
