@@ -188,14 +188,17 @@ WebMetrics performs **real SEO analysis** using live APIs and crawls:
 - Target Lighthouse score: **100**
 
 ---
-### Screenshot
+### Dashboard
 ![Dashboard Preview](public/dashboard.png)
 
 
-### Example:
+### Performance:
 ![Example Image](public/performance.png)
+### SEO:
 ![Example Image](public/seo.png)
+### Exported_PDF:
 ![Example Image](public/exportedpdf1.png)
+### Exported_PDF
 ![Example Image](public/exportedpdf2.png)
 
 ---
