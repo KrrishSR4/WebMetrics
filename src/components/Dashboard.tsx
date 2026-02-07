@@ -2,6 +2,10 @@ import { MetricCard } from './MetricCard';
 import { StatusBadge } from './StatusBadge';
 import { ResponseTimeChart } from './ResponseTimeChart';
 import { PerformanceBreakdown } from './PerformanceBreakdown';
+<<<<<<< HEAD
+=======
+import { PerformancePieChart } from './PerformancePieChart';
+>>>>>>> d70c266466fb345c00bb7245ab62959fda8be001
 import { CoreWebVitals } from './CoreWebVitals';
 import { SEOAnalysis } from './SEOAnalysis';
 import { PDFExportButton } from './PDFExportButton';
@@ -65,7 +69,10 @@ export function Dashboard({ data }: DashboardProps) {
         </div>
         <PDFExportButton
           data={data}
+<<<<<<< HEAD
           url={website.url}
+=======
+>>>>>>> d70c266466fb345c00bb7245ab62959fda8be001
           disabled={!data.isMonitoring}
         />
       </div>
@@ -156,10 +163,17 @@ export function Dashboard({ data }: DashboardProps) {
             {/* Response Time Chart */}
             <ResponseTimeChart data={website.responseTimeHistory} />
 
+<<<<<<< HEAD
             {/* Performance Breakdown & Pie Chart */}
             <div className="grid gap-4 lg:grid-cols-2">
               <PerformanceBreakdown data={website.performanceBreakdown} />
               <PieChartCard data={website.performanceBreakdown} />
+=======
+            {/* Performance Breakdown & Timing Pie Chart */}
+            <div className="grid gap-4 lg:grid-cols-2">
+              <PerformanceBreakdown data={website.performanceBreakdown} />
+              <PerformancePieChart data={website.performanceBreakdown} tlsHandshake={website.tlsHandshakeTime} />
+>>>>>>> d70c266466fb345c00bb7245ab62959fda8be001
             </div>
           </TabsContent>
 
